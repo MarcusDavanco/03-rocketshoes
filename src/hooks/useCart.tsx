@@ -49,7 +49,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
       await api.post(`/stock/${productId}`, updatedProductStockData);
 
-      // Add product to cart
+      // Add product to cart, increasing the amount if it already exists there.
       const { data: product } = await api.get<Product>(`products/${productId}`);
 
       const productIndex = cart.findIndex(

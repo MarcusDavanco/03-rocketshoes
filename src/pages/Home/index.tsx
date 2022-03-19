@@ -55,7 +55,7 @@ const Home = (): JSX.Element => {
   return (
     <ProductList>
       {products.map((product) => (
-        <li>
+        <li key={product.id}>
           <img src={product.image} alt="Tênis de Caminhada Leve Confortável" />
           <strong>Tênis de Caminhada Leve Confortável</strong>
           <span>{product.priceFormatted}</span>
