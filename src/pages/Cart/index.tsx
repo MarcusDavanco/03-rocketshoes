@@ -21,38 +21,23 @@ const Cart = (): JSX.Element => {
   const { cart, removeProduct, updateProductAmount } = useCart();
 
   const cartFormatted = cart.map((product) => ({
-    id: product.id,
-    title: product.title,
-    price: product.price,
+    ...product,
     priceFormatted: formatPrice(product.price),
-    image: product.image,
     subTotal: formatPrice(product.price * product.amount),
-    amount: product.amount,
   }));
 
   const total = formatPrice(
     cart.reduce((sumTotal, product) => {
-      sumTotal += product.price * product.amount;
-      return sumTotal;
+      return sumTotal + product.price * product.amount;
     }, 0)
   );
 
   function handleProductIncrement(product: Product) {
-    const productIncrementData = {
-      productId: product.id,
-      amount: (product.amount += 1),
-    };
-
-    updateProductAmount(productIncrementData);
+    updateProductAmount({ productId: product.id, amount: product.amount + 1 });
   }
 
   function handleProductDecrement(product: Product) {
-    const productDecrementData = {
-      productId: product.id,
-      amount: (product.amount += 1),
-    };
-
-    updateProductAmount(productDecrementData);
+    updateProductAmount({ productId: product.id, amount: product.amount - 1 });
   }
 
   function handleRemoveProduct(productId: number) {
@@ -98,7 +83,7 @@ const Cart = (): JSX.Element => {
                     type="text"
                     data-testid="product-amount"
                     readOnly
-                    value={2}
+                    value={product.amount}
                   />
                   <button
                     type="button"
